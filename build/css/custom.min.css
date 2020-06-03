@@ -1136,7 +1136,7 @@
 
 .nav-sm .nav.child_menu li.active,
 .nav-sm .nav.side-menu li.active-sm {
-    border-right: 5px solid #1ABB9C
+    border-right: 5px solid #F39C12
 }
 
 .nav-sm ul.nav.child_menu ul,
@@ -1147,7 +1147,7 @@
 }
 
 .nav-sm>.nav.side-menu>li.active-sm>a {
-    color: #1ABB9C !important
+    color: #F39C12 !important
 }
 
 .nav-sm .nav.side-menu li a i.toggle-up {
@@ -5623,7 +5623,7 @@ fieldset {
 
 .wizard_horizontal ul.wizard_steps li a.done:before,
 .wizard_horizontal ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
+    background: #F39C12;
     color: #fff
 }
 
@@ -5738,7 +5738,7 @@ fieldset {
 
 .wizard_verticle ul.wizard_steps li a.done:before,
 .wizard_verticle ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
+    background: #F39C12;
     color: #fff
 }
 
@@ -6121,7 +6121,7 @@ ul.notifications {
 }
 
 .daterangepicker.picker_1 .calendar-table thead tr:first-child {
-    background: #1ABB9C
+    background: #F39C12
 }
 
 .daterangepicker.picker_1 .calendar-table td.off {
@@ -6134,7 +6134,7 @@ ul.notifications {
 }
 
 .daterangepicker.picker_2 .calendar-table thead tr {
-    color: #1ABB9C
+    color: #F39C12
 }
 
 .daterangepicker.picker_2 .calendar-table thead tr:first-child {
@@ -6143,7 +6143,7 @@ ul.notifications {
 
 .daterangepicker.picker_3 .calendar-table thead tr:first-child {
     color: #fff;
-    background: #1ABB9C
+    background: #F39C12
 }
 
 .daterangepicker.picker_4 .calendar-table thead tr:first-child {
