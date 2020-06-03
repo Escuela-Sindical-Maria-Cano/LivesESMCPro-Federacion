@@ -1,0 +1,49 @@
+[{
+        "fecha": "30-06-2020",
+        "cantidad_espectadores_live": 150,
+        "cantidad_espectadores_1mes": 200,
+        "pico_espectadores_concurrentes": 45,
+        "total_minutos_aire": 60,
+        "porcentaje_mujeres": 60,
+        "porcentaje_hombres": 40,
+        "total_minutos_vistos_transmision": 250,
+        "total_minutos_vistos_1mes": 1000,
+        "localizacion": [
+            { "Valle del cauca": 35 },
+            { "Bogota D.C": 15 },
+            { "Antioquia": 15 }
+        ]
+    },
+    {
+        "fecha": "06-06-2020",
+        "cantidad_espectadores_live": 300,
+        "cantidad_espectadores_1mes": 400,
+        "pico_espectadores_concurrentes": 90,
+        "total_minutos_aire": 65,
+        "porcentaje_mujeres": 60,
+        "porcentaje_hombres": 40,
+        "total_minutos_vistos_transmision": 500,
+        "total_minutos_vistos_1mes": 2000,
+        "localizacion": [
+            { "Valle del cauca": 30 },
+            { "Bogota D.C": 20 },
+            { "Antioquia": 10 }
+        ]
+    },
+    {
+        "fecha": "13-06-2020",
+        "cantidad_espectadores_live": 200,
+        "cantidad_espectadores_1mes": 400,
+        "pico_espectadores_concurrentes": 90,
+        "total_minutos_aire": 80,
+        "porcentaje_mujeres": 60,
+        "porcentaje_hombres": 40,
+        "total_minutos_vistos_transmision": 500,
+        "total_minutos_vistos_1mes": 2000,
+        "localizacion": [
+            { "Valle del cauca": 30 },
+            { "Bogota D.C": 20 },
+            { "Antioquia": 10 }
+        ]
+    }
+]
