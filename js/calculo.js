@@ -8,6 +8,7 @@ function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
         calcularIndicadoresCalidadTecnologica();
+        chartRendimientoRed();
     });
 }
 
@@ -100,4 +101,137 @@ function calculoVariacionNegativa(actual, pasada, id) {
     var variacion = Math.round((pasada - actual) / pasada * 100);
     $("#" + id).html('<i class="red"><i class="fa fa-sort-desc"></i><i class="red">' + variacion + '% </i> la semana pasada');
 
+}
+
+function stringToDate(_date, _format, _delimiter) {
+    var formatLowerCase = _format.toLowerCase();
+    var formatItems = formatLowerCase.split(_delimiter);
+    var dateItems = _date.split(_delimiter);
+    var monthIndex = formatItems.indexOf("mm");
+    var dayIndex = formatItems.indexOf("dd");
+    var yearIndex = formatItems.indexOf("yyyy");
+    var year = parseInt(dateItems[yearIndex]);
+    // adjust for 2 digit year
+    if (year < 100) { year += 2000; }
+    var month = parseInt(dateItems[monthIndex]);
+    month -= 1;
+    var formatedDate = new Date(year, month, dateItems[dayIndex]);
+    return formatedDate;
+}
+
+
+function chartRendimientoRed() {
+    var fotogramas_enviados = [];
+    var top1 = infolives[0].fecha;
+    var top1Valor = infolives[0].porcentaje_fotograma_enviados;
+    var top2 = "";
+    var top2Valor = 0;
+    var top3 = "";
+    var top3Valor = 0;
+    var top4 = "";
+    var top4Valor = 0;
+    var i = 0;
+    $.each(infolives, function() {
+        var fechaLive = stringToDate(this.fecha, 'dd-mm-yyyy', '-').getTime();
+        fotogramas_enviados.push([fechaLive, this.porcentaje_fotograma_enviados]);
+        if (i !== 0) {
+            if (top1Valor <= this.porcentaje_fotograma_enviados) {
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = top1;
+                top2Valor = top1Valor;
+                top1 = this.fecha;
+                top1Valor = this.porcentaje_fotograma_enviados;
+            } else if (top2Valor <= this.porcentaje_fotograma_enviados) {
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = this.fecha;
+                top2Valor = this.porcentaje_fotograma_enviados;
+            } else if (top3Valor <= this.porcentaje_fotograma_enviados) {
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = this.fecha;
+                top3Valor = this.porcentaje_fotograma_enviados;
+            } else if (top4Valor <= this.porcentaje_fotograma_enviados) {
+                top4 = this.fecha;
+                top4Valor = this.porcentaje_fotograma_enviados;
+            }
+        }
+        i++;
+    });
+
+    var chart_rendimiento_red_settings = {
+        series: {
+            lines: {
+                show: false,
+                fill: true
+            },
+            splines: {
+                show: true,
+                tension: 0.4,
+                lineWidth: 1,
+                fill: 0.4
+            },
+            points: {
+                radius: 0,
+                show: true
+            },
+            shadowSize: 2
+        },
+        grid: {
+            verticalLines: true,
+            hoverable: true,
+            clickable: true,
+            tickColor: "#d5d5d5",
+            borderWidth: 1,
+            color: '#fff'
+        },
+        colors: ["rgba(38, 185, 154, 0.38)"],
+        xaxis: {
+            tickColor: "rgba(51, 51, 51, 0.06)",
+            mode: "time",
+            tickSize: [7, "day"],
+            //tickLength: 10,
+            axisLabel: "Date",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Verdana, Arial',
+            axisLabelPadding: 10
+        },
+        yaxis: {
+            ticks: 8,
+            tickColor: "rgba(51, 51, 51, 0.06)",
+            min: 0,
+            max: 100
+
+        },
+        tooltip: false
+    }
+
+
+    if ($("#chart_rendimiento_red").length) {
+        console.log('Plot rendimiendo red');
+
+        $.plot($("#chart_rendimiento_red"), [fotogramas_enviados], chart_rendimiento_red_settings);
+    }
+    if (top1Valor > 0) {
+        $("#top1_transmision").html(top1);
+        $("#top1_transmision_valor").attr("data-transitiongoal", top1Valor).progressbar();
+    }
+    if (top2Valor > 0) {
+        $("#top2_transmision").html(top2);
+        $("#top2_transmision_valor").attr("data-transitiongoal", top2Valor).progressbar();
+    }
+    if (top3Valor > 0) {
+        $("#top3_transmision").html(top3);
+        $("#top3_transmision_valor").attr("data-transitiongoal", top3Valor).progressbar();
+    }
+    if (top4Valor > 0) {
+        $("#top4_transmision").html(top4);
+        $("#top4_transmision_valor").attr("data-transitiongoal", top4Valor).progressbar();
+    }
 }
