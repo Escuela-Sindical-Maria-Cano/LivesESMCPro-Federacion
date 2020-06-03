@@ -3,12 +3,17 @@ $(document).ready(function() {
 });
 
 var infolives;
+var labelsFechas = [];
+var picoValues = [];
+var minutosReproducidosValues = [];
+var promedioReproduccionValues = [];
 
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
         calcularIndicadoresCalidadTecnologica();
         chartRendimientoRed();
+        chartCalidadTecnologica();
     });
 }
 
@@ -32,6 +37,10 @@ function calcularIndicadoresCalidadTecnologica() {
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         promedio_tiempo_aire += this.total_minutos_aire;
         promedio_pico_espectadores += this.pico_espectadores_concurrentes;
+        labelsFechas.push(this.fecha);
+        picoValues.push(this.pico_espectadores_concurrentes);
+        minutosReproducidosValues.push(this.total_minutos_vistos_transmision);
+        promedioReproduccionValues.push(this.promedio_minutos_reproducion);
         if (i_max - 2 === i) {
             cantidad_espectadores_semana_pasada = this.cantidad_espectadores_live;
             tiempo_aire_semana_pasada = this.total_minutos_aire;
@@ -233,5 +242,71 @@ function chartRendimientoRed() {
     if (top4Valor > 0) {
         $("#top4_transmision").html(top4);
         $("#top4_transmision_valor").attr("data-transitiongoal", top4Valor).progressbar();
+    }
+}
+
+function chartCalidadTecnologica() {
+    if ($('#chart_distribucion_pico').length) {
+        var ctx = document.getElementById("chart_distribucion_pico");
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labelsFechas,
+                datasets: [{
+                    label: "Pico de espectadores concurrentes",
+                    backgroundColor: "rgba(38, 185, 154, 0.31)",
+                    borderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderWidth: 1,
+                    data: picoValues
+                }]
+            },
+        });
+
+    }
+    if ($('#chart_minutos_reproducidos').length) {
+        var ctx = document.getElementById("chart_minutos_reproducidos");
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labelsFechas,
+                datasets: [{
+                    label: "Minutos Reproducidos",
+                    backgroundColor: "rgba(38, 185, 154, 0.31)",
+                    borderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderWidth: 1,
+                    data: minutosReproducidosValues
+                }]
+            },
+        });
+
+    }
+    if ($('#chart_promedio_reproduccion_video').length) {
+        var ctx = document.getElementById("chart_promedio_reproduccion_video");
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labelsFechas,
+                datasets: [{
+                    label: "Promedio de Minutos Reproducidos",
+                    backgroundColor: "rgba(38, 185, 154, 0.31)",
+                    borderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderWidth: 1,
+                    data: promedioReproduccionValues
+                }]
+            },
+        });
+
     }
 }

@@ -9,6 +9,7 @@
         "porcentaje_fotograma_enviados": 98,
         "porcentaje_fotograma_perdidos": 2,
         "total_minutos_vistos_transmision": 250,
+        "promedio_minutos_reproducion": 0.6,
         "total_minutos_vistos_1mes": 1000,
         "localizacion": [
             { "Valle del cauca": 35 },
@@ -27,6 +28,7 @@
         "porcentaje_fotograma_enviados": 90,
         "porcentaje_fotograma_perdidos": 10,
         "total_minutos_vistos_transmision": 500,
+        "promedio_minutos_reproducion": 15,
         "total_minutos_vistos_1mes": 2000,
         "localizacion": [
             { "Valle del cauca": 30 },
@@ -45,6 +47,7 @@
         "porcentaje_fotograma_enviados": 99,
         "porcentaje_fotograma_perdidos": 1,
         "total_minutos_vistos_transmision": 500,
+        "promedio_minutos_reproducion": 5,
         "total_minutos_vistos_1mes": 2000,
         "localizacion": [
             { "Valle del cauca": 30 },
