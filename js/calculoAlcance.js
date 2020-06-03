@@ -12,13 +12,11 @@ var fotogramas_enviados = [];
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
-        calcularIndicadoresCalidadTecnologica();
-        chartCalidadTecnologica();
-        chartRendimientoRed();
+        calcularIndicadoresCalidadAlcance();
     });
 }
 
-function calcularIndicadoresCalidadTecnologica() {
+function calcularIndicadoresCalidadAlcance() {
     var cantidad_total_espectadores = 0;
     var cantidad_espectadores_semana_pasada = 0;
     var cantidad_espectadores_semana_actual = 0;
@@ -62,73 +60,9 @@ function calcularIndicadoresCalidadTecnologica() {
     promedio_tiempo_aire = Math.round(promedio_tiempo_aire / i_max);
     promedio_pico_espectadores = Math.round(promedio_pico_espectadores / i_max);
     var promedio_espectadores = Math.round(cantidad_total_espectadores / i_max);
-    $("#total_espectadores").html(cantidad_total_espectadores);
-    if (cantidad_espectadores_semana_actual >= cantidad_espectadores_semana_pasada) {
-        calculoVariacionPositiva(cantidad_espectadores_semana_actual, cantidad_espectadores_semana_pasada, "variacion_total_espectadores");
-    } else {
-        calculoVariacionNegativa(cantidad_espectadores_semana_actual, cantidad_espectadores_semana_pasada, "variacion_total_espectadores");
-
-    }
-    $("#promedio_tiempo_al_aire").html(promedio_tiempo_aire);
-    if (tiempo_aire_semana_actual >= tiempo_aire_semana_pasada) {
-        calculoVariacionPositiva(tiempo_aire_semana_actual, tiempo_aire_semana_pasada, "variacion_promedio_tiempo_al_aire");
-    } else {
-        calculoVariacionNegativa(tiempo_aire_semana_actual, tiempo_aire_semana_pasada, "variacion_promedio_tiempo_al_aire");
-    }
-    $("#porcentaje_mujeres").html(porcentaje_mujeres_semana_actual);
-    if (porcentaje_mujeres_semana_actual >= porcentaje_mujeres_semana_pasada) {
-        calculoVariacionPositiva(porcentaje_mujeres_semana_actual, porcentaje_mujeres_semana_pasada, "variacion_porcentaje_mujeres");
-    } else {
-        calculoVariacionNegativa(porcentaje_mujeres_semana_actual, porcentaje_mujeres_semana_pasada, "variacion_porcentaje_mujeres");
-    }
-    $("#porcentaje_hombres").html(porcentaje_hombres_semana_actual);
-    if (porcentaje_hombres_semana_actual >= porcentaje_hombres_semana_pasada) {
-        calculoVariacionPositiva(porcentaje_hombres_semana_actual, porcentaje_hombres_semana_pasada, "variacion_porcentaje_hombres");
-    } else {
-        calculoVariacionNegativa(porcentaje_hombres_semana_actual, porcentaje_hombres_semana_pasada, "variacion_porcentaje_hombres");
-    }
-    $("#promedio_pico_espectadores").html(promedio_pico_espectadores);
-    if (pico_espectadores_semana_actual >= pico_espectadores_semana_pasada) {
-        calculoVariacionPositiva(pico_espectadores_semana_actual, pico_espectadores_semana_pasada, "variacion_promedio_pico_espectadores");
-    } else {
-        calculoVariacionNegativa(pico_espectadores_semana_actual, pico_espectadores_semana_pasada, "variacion_promedio_pico_espectadores");
-    }
-    $("#promedio_espectadores").html(promedio_espectadores);
-    if (cantidad_espectadores_semana_actual >= cantidad_espectadores_semana_pasada) {
-        calculoVariacionPositiva(cantidad_espectadores_semana_actual, cantidad_espectadores_semana_pasada, "variacion_promedio_espectadores");
-    } else {
-        calculoVariacionNegativa(cantidad_espectadores_semana_actual, cantidad_espectadores_semana_pasada, "variacion_promedio_espectadores");
-
-    }
-}
-
-function calculoVariacionPositiva(actual, pasada, id) {
-    var variacion = Math.round((actual - pasada) / pasada * 100);
-    $("#" + id).html('<i class="green"><i class="fa fa-sort-asc"></i><i class="green">' + variacion + '% </i> la semana pasada');
 
 }
 
-function calculoVariacionNegativa(actual, pasada, id) {
-    var variacion = Math.round((pasada - actual) / pasada * 100);
-    $("#" + id).html('<i class="red"><i class="fa fa-sort-desc"></i><i class="red">' + variacion + '% </i> la semana pasada');
-
-}
-
-function stringToDate(_date, _format, _delimiter) {
-    var formatLowerCase = _format.toLowerCase();
-    var formatItems = formatLowerCase.split(_delimiter);
-    var dateItems = _date.split(_delimiter);
-    var monthIndex = formatItems.indexOf("mm");
-    var dayIndex = formatItems.indexOf("dd");
-    var yearIndex = formatItems.indexOf("yyyy");
-    var year = parseInt(dateItems[yearIndex]);
-    // adjust for 2 digit year
-    if (year < 100) { year += 2000; }
-    var month = parseInt(dateItems[monthIndex]);
-    month -= 1;
-    var formatedDate = new Date(year, month, dateItems[dayIndex]);
-    return formatedDate;
-}
 
 
 function chartRendimientoRed() {
