@@ -177,13 +177,12 @@ function chartRendimientoRed() {
         series: {
             lines: {
                 show: false,
-                fill: true
+                fill: false
             },
             splines: {
                 show: true,
                 tension: 0.4,
-                lineWidth: 1,
-                fill: 0.4
+                lineWidth: 1
             },
             points: {
                 radius: 0,
@@ -218,7 +217,7 @@ function chartRendimientoRed() {
             max: 100
 
         },
-        tooltip: false
+        tooltip: true
     }
 
 
