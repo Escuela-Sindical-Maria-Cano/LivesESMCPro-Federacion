@@ -7,13 +7,14 @@ var labelsFechas = [];
 var picoValues = [];
 var minutosReproducidosValues = [];
 var promedioReproduccionValues = [];
+var fotogramas_enviados = [];
 
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
         calcularIndicadoresCalidadTecnologica();
-        chartRendimientoRed();
         chartCalidadTecnologica();
+        chartRendimientoRed();
     });
 }
 
@@ -41,6 +42,7 @@ function calcularIndicadoresCalidadTecnologica() {
         picoValues.push(this.pico_espectadores_concurrentes);
         minutosReproducidosValues.push(this.total_minutos_vistos_transmision);
         promedioReproduccionValues.push(this.promedio_minutos_reproducion);
+        fotogramas_enviados.push(this.porcentaje_fotograma_enviados);
         if (i_max - 2 === i) {
             cantidad_espectadores_semana_pasada = this.cantidad_espectadores_live;
             tiempo_aire_semana_pasada = this.total_minutos_aire;
@@ -130,7 +132,6 @@ function stringToDate(_date, _format, _delimiter) {
 
 
 function chartRendimientoRed() {
-    var fotogramas_enviados = [];
     var top1 = infolives[0].fecha;
     var top1Valor = infolives[0].porcentaje_fotograma_enviados;
     var top2 = "";
@@ -141,8 +142,6 @@ function chartRendimientoRed() {
     var top4Valor = 0;
     var i = 0;
     $.each(infolives, function() {
-        var fechaLive = stringToDate(this.fecha, 'dd-mm-yyyy', '-').getTime();
-        fotogramas_enviados.push([fechaLive, this.porcentaje_fotograma_enviados]);
         if (i !== 0) {
             if (top1Valor <= this.porcentaje_fotograma_enviados) {
                 top4 = top3;
@@ -172,60 +171,6 @@ function chartRendimientoRed() {
         }
         i++;
     });
-
-    var chart_rendimiento_red_settings = {
-        series: {
-            lines: {
-                show: false,
-                fill: false
-            },
-            splines: {
-                show: true,
-                tension: 0.4,
-                lineWidth: 1
-            },
-            points: {
-                radius: 0,
-                show: true
-            },
-            shadowSize: 2
-        },
-        grid: {
-            verticalLines: true,
-            hoverable: true,
-            clickable: true,
-            tickColor: "#d5d5d5",
-            borderWidth: 1,
-            color: '#fff'
-        },
-        colors: ["rgba(38, 185, 154, 0.38)"],
-        xaxis: {
-            tickColor: "rgba(51, 51, 51, 0.06)",
-            mode: "time",
-            tickSize: [7, "day"],
-            //tickLength: 10,
-            axisLabel: "Date",
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: 'Verdana, Arial',
-            axisLabelPadding: 10
-        },
-        yaxis: {
-            ticks: 8,
-            tickColor: "rgba(51, 51, 51, 0.06)",
-            min: 0,
-            max: 100
-
-        },
-        tooltip: true
-    }
-
-
-    if ($("#chart_rendimiento_red").length) {
-        console.log('Plot rendimiendo red');
-
-        $.plot($("#chart_rendimiento_red"), [fotogramas_enviados], chart_rendimiento_red_settings);
-    }
     if (top1Valor > 0) {
         $("#top1_transmision").html(top1);
         $("#top1_transmision_valor").attr("data-transitiongoal", top1Valor).progressbar();
@@ -245,10 +190,51 @@ function chartRendimientoRed() {
 }
 
 function chartCalidadTecnologica() {
+    if ($("#chart_rendimiento_red").length) {
+        console.log('Plot rendimiendo red');
+        var ctx = document.getElementById("chart_rendimiento_red");
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }]
+                }
+            },
+            data: {
+                labels: labelsFechas,
+                datasets: [{
+                    label: "Fotogramas enviados a la transmisión",
+                    backgroundColor: "rgba(38, 185, 154, 0.31)",
+                    borderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                    pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderWidth: 1,
+                    data: fotogramas_enviados
+                }]
+            },
+        });
+    }
     if ($('#chart_distribucion_pico').length) {
         var ctx = document.getElementById("chart_distribucion_pico");
         var lineChart = new Chart(ctx, {
             type: 'line',
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }]
+                }
+            },
             data: {
                 labels: labelsFechas,
                 datasets: [{
@@ -270,6 +256,16 @@ function chartCalidadTecnologica() {
         var ctx = document.getElementById("chart_minutos_reproducidos");
         var lineChart = new Chart(ctx, {
             type: 'line',
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }]
+                }
+            },
             data: {
                 labels: labelsFechas,
                 datasets: [{
@@ -291,6 +287,16 @@ function chartCalidadTecnologica() {
         var ctx = document.getElementById("chart_promedio_reproduccion_video");
         var lineChart = new Chart(ctx, {
             type: 'line',
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }]
+                }
+            },
             data: {
                 labels: labelsFechas,
                 datasets: [{
