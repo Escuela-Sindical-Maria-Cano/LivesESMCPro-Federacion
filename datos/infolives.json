@@ -11,6 +11,9 @@
         "total_minutos_vistos_transmision": 250,
         "promedio_minutos_reproducion": 0.6,
         "total_minutos_vistos_1mes": 1000,
+        "total_interacciones": 50,
+        "total_comentarios": 20,
+        "total_compartidos": 10,
         "localizacion": [
             { "Valle del cauca": 35 },
             { "Bogota D.C": 15 },
@@ -30,6 +33,9 @@
         "total_minutos_vistos_transmision": 500,
         "promedio_minutos_reproducion": 15,
         "total_minutos_vistos_1mes": 2000,
+        "total_interacciones": 60,
+        "total_comentarios": 30,
+        "total_compartidos": 20,
         "localizacion": [
             { "Valle del cauca": 30 },
             { "Bogota D.C": 20 },
@@ -49,6 +55,9 @@
         "total_minutos_vistos_transmision": 500,
         "promedio_minutos_reproducion": 5,
         "total_minutos_vistos_1mes": 2000,
+        "total_interacciones": 60,
+        "total_comentarios": 10,
+        "total_compartidos": 10,
         "localizacion": [
             { "Valle del cauca": 30 },
             { "Bogota D.C": 20 },
