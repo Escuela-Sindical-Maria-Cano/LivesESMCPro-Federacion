@@ -15,9 +15,9 @@
         "total_comentarios": 20,
         "total_compartidos": 10,
         "localizacion": [
-            { "Valle del cauca": 35 },
-            { "Bogota D.C": 15 },
-            { "Antioquia": 15 }
+            { "lugar": "Valle del Cauca", "valor": 35 },
+            { "lugar": "Bogota", "valor": 15 },
+            { "lugar": "Antioquia", "valor": 15 }
         ]
     },
     {
@@ -37,9 +37,9 @@
         "total_comentarios": 30,
         "total_compartidos": 20,
         "localizacion": [
-            { "Valle del cauca": 30 },
-            { "Bogota D.C": 20 },
-            { "Antioquia": 10 }
+            { "lugar": "Valle del Cauca", "valor": 30 },
+            { "lugar": "Bogota", "valor": 20 },
+            { "lugar": "Antioquia", "valor": 10 }
         ]
     },
     {
@@ -59,9 +59,12 @@
         "total_comentarios": 10,
         "total_compartidos": 10,
         "localizacion": [
-            { "Valle del cauca": 30 },
-            { "Bogota D.C": 20 },
-            { "Antioquia": 10 }
+            { "lugar": "Valle del Cauca", "valor": 30 },
+            { "lugar": "Bogota", "valor": 15.5 },
+            { "lugar": "Antioquia", "valor": 20 },
+            { "lugar": "Cauca", "valor": 4.5 },
+            { "lugar": "Quindio", "valor": 10 },
+            { "lugar": "Caldas", "valor": 20 }
         ]
     }
 ]

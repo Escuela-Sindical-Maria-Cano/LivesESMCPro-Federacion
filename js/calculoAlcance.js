@@ -8,22 +8,24 @@ var picoValues = [];
 var minutosReproducidosValues = [];
 var promedioReproduccionValues = [];
 var numeroEspectadoresLive = [];
-var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
 var sumaEspectadoresMes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var presentacionesMes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var localizacionesActuales = [];
+var cantidad_espectadores_semana_actual = 0;
 
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
         calcularIndicadoresCalidadAlcance();
         chartAlcanceEspectadores();
+        tablaTopLocalizaciones();
     });
 }
 
 function calcularIndicadoresCalidadAlcance() {
     var cantidad_total_espectadores = 0;
     var cantidad_espectadores_semana_pasada = 0;
-    var cantidad_espectadores_semana_actual = 0;
     var promedio_tiempo_aire = 0;
     var tiempo_aire_semana_pasada = 0;
     var tiempo_aire_semana_actual = 0;
@@ -70,6 +72,7 @@ function calcularIndicadoresCalidadAlcance() {
             cantidad_compartidos_semana_actual = this.total_compartidos;
             cantidad_interacciones_semana_actual = this.total_interacciones;
             fecha_semana_actual = this.fecha;
+            localizacionesActuales = parsearLocalizacion(this.localizacion);
         }
         i++;
     });
@@ -82,8 +85,6 @@ function calcularIndicadoresCalidadAlcance() {
     $(".fecha_ultimo_live").html(fecha_semana_actual);
 
 }
-
-
 
 function chartAlcanceEspectadores() {
     if ($("#chart_alcance_todos").length) {
@@ -159,5 +160,106 @@ function chartAlcanceEspectadores() {
                 }]
             },
         });
+    }
+    if (typeof(jQuery.fn.vectorMap) === 'undefined') { return; }
+
+    console.log('init_JQVmap');
+
+    if ($('#mapa_espectadores').length) {
+
+        $('#mapa_espectadores').vectorMap({
+            map: 'co_mill',
+            series: {
+                regions: [{
+                    values: localizacionesActuales,
+                    scale: ['#ffeda0', '#f03b20'],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+            onRegionTipShow: function(e, el, code) {
+                var valor = 0;
+                if (typeof localizacionesActuales[code] !== "undefined") {
+                    valor = localizacionesActuales[code];
+                }
+                el.html(el.html() + ' (Cantidad Espectadores - ' + valor + ')');
+            }
+        });
+
+    }
+}
+
+function tablaTopLocalizaciones() {
+    var i_ultima = Object.keys(infolives).length - 1;
+    var top1 = infolives[i_ultima].localizacion[0].lugar;
+    var top1Valor = infolives[i_ultima].localizacion[0].valor;
+    var top2 = "";
+    var top2Valor = 0;
+    var top3 = "";
+    var top3Valor = 0;
+    var top4 = "";
+    var top4Valor = 0;
+    var top5 = "";
+    var top5Valor = 0;
+    var i = 0;
+    $.each(infolives[i_ultima].localizacion, function() {
+        if (i !== 0) {
+            if (top1Valor <= this.valor) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = top1;
+                top2Valor = top1Valor;
+                top1 = this.lugar;
+                top1Valor = this.valor;
+            } else if (top2Valor <= this.valor) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = this.lugar;
+                top2Valor = this.valor;
+            } else if (top3Valor <= this.valor) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = this.lugar;
+                top3Valor = this.valor;
+            } else if (top4Valor <= this.valor) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = this.lugar;
+                top4Valor = this.valor;
+            } else if (top5Valor <= this.valor) {
+                top5 = this.lugar;
+                top5Valor = this.valor;
+            }
+        }
+        i++;
+    });
+    if (top1Valor > 0) {
+        $("#top1_localizacion").html(top1);
+        $("#top1_localizacion_value").html(Math.round(top1Valor * cantidad_espectadores_semana_actual / 100));
+    }
+    if (top2Valor > 0) {
+        $("#top2_localizacion").html(top2);
+        $("#top2_localizacion_value").html(Math.round(top2Valor * cantidad_espectadores_semana_actual / 100));
+    }
+    if (top3Valor > 0) {
+        $("#top3_localizacion").html(top3);
+        $("#top3_localizacion_value").html(Math.round(top3Valor * cantidad_espectadores_semana_actual / 100));
+    }
+    if (top4Valor > 0) {
+        $("#top4_localizacion").html(top4);
+        $("#top4_localizacion_value").html(Math.round(top4Valor * cantidad_espectadores_semana_actual / 100));
+    }
+    if (top5Valor > 0) {
+        $("#top5_localizacion").html(top5);
+        $("#top5_localizacion_value").html(Math.round(top5Valor * cantidad_espectadores_semana_actual / 100));
     }
 }
