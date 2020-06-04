@@ -12,7 +12,9 @@ var numeroEspectadoresLive = [];
 var sumaEspectadoresMes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var presentacionesMes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var localizacionesActuales = [];
+var localizacionesAcumuladas = {};
 var cantidad_espectadores_semana_actual = 0;
+var localizacionesMapaAcumuladas = new Map();
 
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
@@ -20,6 +22,7 @@ function leerJSON() {
         calcularIndicadoresCalidadAlcance();
         chartAlcanceEspectadores();
         tablaTopLocalizaciones();
+        tablaTopLocalizacionesAcumulados();
     });
 }
 
@@ -55,6 +58,7 @@ function calcularIndicadoresCalidadAlcance() {
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         sumaEspectadoresMes[indiceFecha] += this.cantidad_espectadores_live;
         presentacionesMes[indiceFecha]++;
+        localizacionesAcumuladas = parsearLocalizacionAcumular(localizacionesAcumuladas, this.localizacion, this.cantidad_espectadores_live);
         if (i_max - 2 === i) {
             cantidad_espectadores_semana_pasada = this.cantidad_espectadores_live;
             tiempo_aire_semana_pasada = this.total_minutos_aire;
@@ -181,7 +185,28 @@ function chartAlcanceEspectadores() {
                 if (typeof localizacionesActuales[code] !== "undefined") {
                     valor = localizacionesActuales[code];
                 }
-                el.html(el.html() + ' (Cantidad Espectadores - ' + valor + ')');
+                el.html(el.html() + ' (Cantidad Espectadores - ' + valor + '%)');
+            }
+        });
+
+    }
+    if ($('#mapa_espectadores_acumulado').length) {
+
+        $('#mapa_espectadores_acumulado').vectorMap({
+            map: 'co_mill',
+            series: {
+                regions: [{
+                    values: localizacionesAcumuladas,
+                    scale: ['#ffeda0', '#f03b20'],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+            onRegionTipShow: function(e, el, code) {
+                var valor = 0;
+                if (typeof localizacionesAcumuladas[code] !== "undefined") {
+                    valor = localizacionesAcumuladas[code];
+                }
+                el.html(el.html() + ' (Cantidad Espectadores - ' + valor + '%)');
             }
         });
 
@@ -261,5 +286,80 @@ function tablaTopLocalizaciones() {
     if (top5Valor > 0) {
         $("#top5_localizacion").html(top5);
         $("#top5_localizacion_value").html(Math.round(top5Valor * cantidad_espectadores_semana_actual / 100));
+    }
+}
+
+function tablaTopLocalizacionesAcumulados() {
+    var top1 = localizacionesMapaAcumuladas.keys().next().value;
+    var top1Valor = localizacionesMapaAcumuladas.values().next().value;
+    var top2 = "";
+    var top2Valor = 0;
+    var top3 = "";
+    var top3Valor = 0;
+    var top4 = "";
+    var top4Valor = 0;
+    var top5 = "";
+    var top5Valor = 0;
+    var i = 0;
+    localizacionesMapaAcumuladas.forEach(function(value, key) {
+        if (i !== 0) {
+            if (top1Valor <= value) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = top1;
+                top2Valor = top1Valor;
+                top1 = key;
+                top1Valor = value;
+            } else if (top2Valor <= value) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = top2;
+                top3Valor = top2Valor;
+                top2 = key;
+                top2Valor = value;
+            } else if (top3Valor <= value) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = top3;
+                top4Valor = top3Valor;
+                top3 = key;
+                top3Valor = value;
+            } else if (top4Valor <= value) {
+                top5 = top4;
+                top5Valor = top4Valor;
+                top4 = key;
+                top4Valor = value;
+            } else if (top5Valor <= value) {
+                top5 = key;
+                top5Valor = value;
+            }
+        }
+        i++;
+    });
+    if (top1Valor > 0) {
+        $("#top1_localizacion_acumulado").html(top1);
+        $("#top1_localizacion_acumulado_value").html(Math.round(top1Valor));
+    }
+    if (top2Valor > 0) {
+        $("#top2_localizacion_acumulado").html(top2);
+        $("#top2_localizacion_acumulado_value").html(Math.round(top2Valor));
+    }
+    if (top3Valor > 0) {
+        $("#top3_localizacion_acumulado").html(top3);
+        $("#top3_localizacion_acumulado_value").html(Math.round(top3Valor));
+    }
+    if (top4Valor > 0) {
+        $("#top4_localizacion_acumulado").html(top4);
+        $("#top4_localizacion_acumulado_value").html(Math.round(top4Valor));
+    }
+    if (top5Valor > 0) {
+        $("#top5_localizacion_acumulado").html(top5);
+        $("#top5_localizacion_acumulado_value").html(Math.round(top5Valor));
     }
 }

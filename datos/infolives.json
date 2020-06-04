@@ -1,6 +1,6 @@
 [{
         "fecha": "30-05-2020",
-        "cantidad_espectadores_live": 150,
+        "cantidad_espectadores_live": 100,
         "cantidad_espectadores_1mes": 200,
         "pico_espectadores_concurrentes": 45,
         "total_minutos_aire": 60,

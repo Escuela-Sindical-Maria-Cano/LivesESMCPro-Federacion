@@ -43,6 +43,23 @@ function parsearLocalizacion(localizacionOrigen) {
     return json;
 }
 
+function parsearLocalizacionAcumular(localizacionesReferencia, localizacionOrigen, cantidadEspectadores) {
+    $.each(localizacionOrigen, function() {
+        if (typeof localizacionesReferencia[localizaciones.get(this.lugar)] === "undefined") {
+            localizacionesReferencia[localizaciones.get(this.lugar)] = this.valor;
+        } else {
+            localizacionesReferencia[localizaciones.get(this.lugar)] += this.valor;
+        }
+        if (typeof localizacionesMapaAcumuladas.get(this.lugar) === "undefined") {
+            localizacionesMapaAcumuladas.set(this.lugar, Math.round(this.valor * cantidadEspectadores / 100))
+        } else {
+            localizacionesMapaAcumuladas.set(this.lugar, localizacionesMapaAcumuladas.get(this.lugar) + Math.round(this.valor * cantidadEspectadores / 100));
+        }
+    });
+    return localizacionesReferencia;
+}
+
+
 function calculoVariacionPositiva(actual, pasada, id) {
     var variacion = Math.round((actual - pasada) / pasada * 100);
     $("#" + id).html('<i class="green"><i class="fa fa-sort-asc"></i><i class="green">' + variacion + '% </i> la semana pasada');
