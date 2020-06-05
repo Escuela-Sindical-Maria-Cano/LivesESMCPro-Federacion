@@ -4,14 +4,19 @@ $(document).ready(function() {
 
 var infolives;
 var labelsFechas = [];
-var porcentaje_plan_transmision = 0;
-var porcentaje_lineamientos_manual = 0;
+var cantidadComentariosPublicacion = [];
+var cantidadComentariosLive = [];
+var cantidadComentariosPostLive = [];
+var cantidadComentariosInformales = [];
+var porcentajePlanTransmision = 0;
+var porcentajeLineamientosManual = 0;
 
 function leerJSON() {
     $.getJSON('datos/infolives.json', function(data) {
         infolives = data;
         calcularIndicadoresCalidadCalidad();
         chartCalidadEstrategia();
+        chartRetroalimentacionComentarios();
     });
 }
 
@@ -20,24 +25,29 @@ function calcularIndicadoresCalidadCalidad() {
     var i = 0;
     var i_max = Object.keys(infolives).length;
     $.each(infolives, function() {
+        labelsFechas.push(this.fecha);
+        cantidadComentariosPublicacion.push(this.total_comentarios_publicacion);
+        cantidadComentariosLive.push(this.total_comentarios_live);
+        cantidadComentariosPostLive.push(this.total_comentarios_post_live);
+        cantidadComentariosInformales.push(this.total_comentarios_informales)
         if (this.tiene_plan_transmision) {
-            porcentaje_plan_transmision++
+            porcentajePlanTransmision++
         }
         if (this.tiene_lineamientos_manual) {
-            porcentaje_lineamientos_manual++
+            porcentajeLineamientosManual++
         }
         if (i_max - 2 === i) {}
         if (i_max - 1 === i) {}
         i++;
     });
-    porcentaje_plan_transmision = porcentaje_plan_transmision / i_max;
-    porcentaje_lineamientos_manual = porcentaje_lineamientos_manual / i_max;
+    porcentajePlanTransmision = porcentajePlanTransmision / i_max;
+    porcentajeLineamientosManual = porcentajeLineamientosManual / i_max;
 
 }
 
 var theme = {
     color: [
-        '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
+        '#34495E', '#ff7f00', '#BDC3C7', '#e41a1c',
         '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
     ],
 
@@ -350,7 +360,7 @@ function chartCalidadEstrategia() {
                     }
                 },
                 data: [{
-                    value: Math.round(porcentaje_plan_transmision * 100),
+                    value: Math.round(porcentajePlanTransmision * 100),
                     name: '¿Tiene plan de transmisión?'
                 }]
             }]
@@ -454,9 +464,113 @@ function chartCalidadEstrategia() {
                     }
                 },
                 data: [{
-                    value: Math.round(porcentaje_lineamientos_manual * 100),
+                    value: Math.round(porcentajeLineamientosManual * 100),
                     name: '¿Sigue lineamientos de la identidad corporativa?'
                 }]
+            }]
+        });
+
+    }
+}
+
+function chartRetroalimentacionComentarios() {
+    if ($('#chart_retroalimentacion_comentario').length) {
+
+        var echartLine = echarts.init(document.getElementById('chart_retroalimentacion_comentario'), theme);
+
+        echartLine.setOption({
+            title: {
+                text: 'Comentarios en las transmisiones',
+                subtext: 'Cantidad'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                x: 220,
+                y: 40,
+                data: ['Publicación', 'Live', 'Post-Live', 'Informal']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        title: {
+                            line: 'Line',
+                            bar: 'Bar',
+                            stack: 'Stack',
+                            tiled: 'Tiled'
+                        },
+                        type: ['line', 'bar', 'stack', 'tiled']
+                    },
+                    restore: {
+                        show: true,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: labelsFechas
+            }],
+            yAxis: [{
+                type: 'value'
+            }],
+            series: [{
+                name: 'Publicación',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosPublicacion
+            }, {
+                name: 'Live',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosLive
+            }, {
+                name: 'Post-Live',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosPostLive
+            }, {
+                name: 'Informal',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosInformales
             }]
         });
 

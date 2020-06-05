@@ -72,7 +72,7 @@ function calcularIndicadoresCalidadAlcance() {
             porcentaje_mujeres_semana_actual = this.porcentaje_mujeres;
             porcentaje_hombres_semana_actual = this.porcentaje_hombres;
             pico_espectadores_semana_actual = this.pico_espectadores_concurrentes;
-            cantidad_comentarios_semana_actual = this.total_comentarios;
+            cantidad_comentarios_semana_actual = this.total_comentarios_live;
             cantidad_compartidos_semana_actual = this.total_compartidos;
             cantidad_interacciones_semana_actual = this.total_interacciones;
             fecha_semana_actual = this.fecha;
