@@ -23,7 +23,8 @@
             { "lugar": "Valle del Cauca", "valor": 35 },
             { "lugar": "Bogota", "valor": 15 },
             { "lugar": "Antioquia", "valor": 15 }
-        ]
+        ],
+        "denuncias": ["Denuncia 1", "Denuncia 2", "Denuncia 3", "Denuncia 4", "Denuncia 5"]
     },
     {
         "fecha": "06-06-2020",
@@ -50,7 +51,8 @@
             { "lugar": "Valle del Cauca", "valor": 30 },
             { "lugar": "Bogota", "valor": 20 },
             { "lugar": "Antioquia", "valor": 10 }
-        ]
+        ],
+        "denuncias": []
     },
     {
         "fecha": "13-06-2020",
@@ -80,6 +82,7 @@
             { "lugar": "Cauca", "valor": 4.5 },
             { "lugar": "Quindio", "valor": 10 },
             { "lugar": "Caldas", "valor": 20 }
-        ]
+        ],
+        "denuncias": ["Denuncia 1", "Denuncia 2", "Denuncia 3"]
     }
 ]
