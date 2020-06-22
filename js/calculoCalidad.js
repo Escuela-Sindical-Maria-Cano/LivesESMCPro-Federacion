@@ -2,7 +2,7 @@ $(document).ready(function() {
     leerJSON();
 });
 
-var infolives;
+var infoFacebookLives;
 var labelsFechas = [];
 var cantidadComentariosPublicacion = [];
 var cantidadComentariosLive = [];
@@ -12,8 +12,8 @@ var porcentajePlanTransmision = 0;
 var porcentajeLineamientosManual = 0;
 
 function leerJSON() {
-    $.getJSON('datos/infolives.json', function(data) {
-        infolives = data;
+    $.getJSON('datos/infoFacebookLives.json', function(data) {
+        infoFacebookLives = data;
         calcularIndicadoresCalidadCalidad();
         chartCalidadEstrategia();
         chartRetroalimentacionComentarios();
@@ -23,8 +23,8 @@ function leerJSON() {
 function calcularIndicadoresCalidadCalidad() {
     var fecha_semana_actual = "";
     var i = 0;
-    var i_max = Object.keys(infolives).length;
-    $.each(infolives, function() {
+    var i_max = Object.keys(infoFacebookLives).length;
+    $.each(infoFacebookLives, function() {
         labelsFechas.push(this.fecha);
         cantidadComentariosPublicacion.push(this.total_comentarios_publicacion);
         cantidadComentariosLive.push(this.total_comentarios_live);

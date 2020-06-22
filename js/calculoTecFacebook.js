@@ -2,7 +2,7 @@ $(document).ready(function() {
     leerJSON();
 });
 
-var infolives;
+var infoFacebookLives;
 var labelsFechas = [];
 var picoValues = [];
 var minutosReproducidosValues = [];
@@ -10,8 +10,8 @@ var promedioReproduccionValues = [];
 var fotogramas_enviados = [];
 
 function leerJSON() {
-    $.getJSON('datos/infolives.json', function(data) {
-        infolives = data;
+    $.getJSON('datos/infoFacebookLives.json', function(data) {
+        infoFacebookLives = data;
         calcularIndicadoresCalidadTecnologica();
         chartCalidadTecnologica();
         chartRendimientoRed();
@@ -33,8 +33,8 @@ function calcularIndicadoresCalidadTecnologica() {
     var pico_espectadores_semana_pasada = 0;
     var pico_espectadores_semana_actual = 0;
     var i = 0;
-    var i_max = Object.keys(infolives).length;
-    $.each(infolives, function() {
+    var i_max = Object.keys(infoFacebookLives).length;
+    $.each(infoFacebookLives, function() {
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         promedio_tiempo_aire += this.total_minutos_aire;
         promedio_pico_espectadores += this.pico_espectadores_concurrentes;
@@ -103,8 +103,8 @@ function calcularIndicadoresCalidadTecnologica() {
 }
 
 function chartRendimientoRed() {
-    var top1 = infolives[0].fecha;
-    var top1Valor = infolives[0].porcentaje_fotograma_enviados;
+    var top1 = infoFacebookLives[0].fecha;
+    var top1Valor = infoFacebookLives[0].porcentaje_fotograma_enviados;
     var top2 = "";
     var top2Valor = 0;
     var top3 = "";
@@ -112,7 +112,7 @@ function chartRendimientoRed() {
     var top4 = "";
     var top4Valor = 0;
     var i = 0;
-    $.each(infolives, function() {
+    $.each(infoFacebookLives, function() {
         if (i !== 0) {
             if (top1Valor <= this.porcentaje_fotograma_enviados) {
                 top4 = top3;

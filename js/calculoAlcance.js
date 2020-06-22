@@ -2,7 +2,7 @@ $(document).ready(function() {
     leerJSON();
 });
 
-var infolives;
+var infoFacebookLives;
 var labelsFechas = [];
 var picoValues = [];
 var minutosReproducidosValues = [];
@@ -17,8 +17,8 @@ var cantidad_espectadores_semana_actual = 0;
 var localizacionesMapaAcumuladas = new Map();
 
 function leerJSON() {
-    $.getJSON('datos/infolives.json', function(data) {
-        infolives = data;
+    $.getJSON('datos/infoFacebookLives.json', function(data) {
+        infoFacebookLives = data;
         calcularIndicadoresCalidadAlcance();
         chartAlcanceEspectadores();
         tablaTopLocalizaciones();
@@ -44,8 +44,8 @@ function calcularIndicadoresCalidadAlcance() {
     var cantidad_interacciones_semana_actual = 0;
     var fecha_semana_actual = "";
     var i = 0;
-    var i_max = Object.keys(infolives).length;
-    $.each(infolives, function() {
+    var i_max = Object.keys(infoFacebookLives).length;
+    $.each(infoFacebookLives, function() {
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         promedio_tiempo_aire += this.total_minutos_aire;
         promedio_pico_espectadores += this.pico_espectadores_concurrentes;
@@ -214,9 +214,9 @@ function chartAlcanceEspectadores() {
 }
 
 function tablaTopLocalizaciones() {
-    var i_ultima = Object.keys(infolives).length - 1;
-    var top1 = infolives[i_ultima].localizacion[0].lugar;
-    var top1Valor = infolives[i_ultima].localizacion[0].valor;
+    var i_ultima = Object.keys(infoFacebookLives).length - 1;
+    var top1 = infoFacebookLives[i_ultima].localizacion[0].lugar;
+    var top1Valor = infoFacebookLives[i_ultima].localizacion[0].valor;
     var top2 = "";
     var top2Valor = 0;
     var top3 = "";
@@ -226,7 +226,7 @@ function tablaTopLocalizaciones() {
     var top5 = "";
     var top5Valor = 0;
     var i = 0;
-    $.each(infolives[i_ultima].localizacion, function() {
+    $.each(infoFacebookLives[i_ultima].localizacion, function() {
         if (i !== 0) {
             if (top1Valor <= this.valor) {
                 top5 = top4;

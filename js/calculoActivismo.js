@@ -2,14 +2,14 @@ $(document).ready(function() {
     leerJSON();
 });
 
-var infolives;
+var infoFacebookLives;
 var labelsFechas = [];
 var denunciasConteo = [];
 var denunciasLive = new Map();
 
 function leerJSON() {
-    $.getJSON('datos/infolives.json', function(data) {
-        infolives = data;
+    $.getJSON('datos/infoFacebookLives.json', function(data) {
+        infoFacebookLives = data;
         calcularIndicadoresActivismo();
         chartDenuncias();
     });
@@ -18,8 +18,8 @@ function leerJSON() {
 function calcularIndicadoresActivismo() {
     var fecha_semana_actual = "";
     var i = 0;
-    var i_max = Object.keys(infolives).length;
-    $.each(infolives, function() {
+    var i_max = Object.keys(infoFacebookLives).length;
+    $.each(infoFacebookLives, function() {
         labelsFechas.push(this.fecha);
         denunciasLive.set(this.fecha, this.denuncias);
         denunciasConteo.push(Object.keys(this.denuncias).length);
