@@ -185,7 +185,7 @@ function chartAlcanceEspectadoresYoutube() {
                 }
             },
             data: {
-                labels: labelsFechas,
+                labels: labelsYoutubeFechas,
                 datasets: [{
                     label: "Número de Espectadores",
                     backgroundColor: "rgba(253,141,60, 0.31)",
@@ -195,7 +195,7 @@ function chartAlcanceEspectadoresYoutube() {
                     pointHoverBackgroundColor: "#fff",
                     pointHoverBorderColor: "rgba(220,220,220,1)",
                     pointBorderWidth: 1,
-                    data: numeroEspectadoresLive
+                    data: numeroEspectadoresYoutubeLive
                 }]
             },
         });
