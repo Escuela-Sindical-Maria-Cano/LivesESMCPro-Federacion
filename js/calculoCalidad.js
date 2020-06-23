@@ -3,11 +3,17 @@ $(document).ready(function() {
 });
 
 var infoFacebookLives;
+var infoYoutubeLives;
 var labelsFechas = [];
 var cantidadComentariosPublicacion = [];
 var cantidadComentariosLive = [];
 var cantidadComentariosPostLive = [];
 var cantidadComentariosInformales = [];
+var labelsFechasYoutube = [];
+var cantidadComentariosPublicacionYoutube = [];
+var cantidadComentariosLiveYoutube = [];
+var cantidadComentariosPostLiveYoutube = [];
+var cantidadComentariosInformalesYoutube = [];
 var porcentajePlanTransmision = 0;
 var porcentajeLineamientosManual = 0;
 
@@ -17,6 +23,11 @@ function leerJSON() {
         calcularIndicadoresCalidadCalidad();
         chartCalidadEstrategia();
         chartRetroalimentacionComentarios();
+    });
+    $.getJSON('datos/infoYoutubeLives.json', function(data) {
+        infoYoutubeLives = data;
+        calcularIndicadoresCalidadCalidadYoutube();
+        chartRetroalimentacionComentariosYoutube();
     });
 }
 
@@ -42,6 +53,17 @@ function calcularIndicadoresCalidadCalidad() {
     });
     porcentajePlanTransmision = porcentajePlanTransmision / i_max;
     porcentajeLineamientosManual = porcentajeLineamientosManual / i_max;
+
+}
+
+function calcularIndicadoresCalidadCalidadYoutube() {
+    $.each(infoYoutubeLives, function() {
+        labelsFechasYoutube.push(this.fecha);
+        cantidadComentariosPublicacionYoutube.push(this.total_comentarios_publicacion);
+        cantidadComentariosLiveYoutube.push(this.total_comentarios_live);
+        cantidadComentariosPostLiveYoutube.push(this.total_comentarios_post_live);
+        cantidadComentariosInformalesYoutube.push(this.total_comentarios_informales)
+    });
 
 }
 
@@ -354,6 +376,110 @@ function chartRetroalimentacionComentarios() {
                     }
                 },
                 data: cantidadComentariosInformales
+            }]
+        });
+
+    }
+}
+
+function chartRetroalimentacionComentariosYoutube() {
+    if ($('#chart_retroalimentacion_comentario_youtube').length) {
+
+        var echartLine = echarts.init(document.getElementById('chart_retroalimentacion_comentario_youtube'), themeEchart);
+
+        echartLine.setOption({
+            title: {
+                text: 'Comentarios en las transmisiones',
+                subtext: 'Cantidad'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                x: 220,
+                y: 40,
+                data: ['Publicación', 'Live', 'Post-Live', 'Informal']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        title: {
+                            line: 'Line',
+                            bar: 'Bar',
+                            stack: 'Stack',
+                            tiled: 'Tiled'
+                        },
+                        type: ['line', 'bar', 'stack', 'tiled']
+                    },
+                    restore: {
+                        show: true,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: labelsFechasYoutube
+            }],
+            yAxis: [{
+                type: 'value'
+            }],
+            series: [{
+                name: 'Publicación',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosPublicacionYoutube
+            }, {
+                name: 'Live',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosLiveYoutube
+            }, {
+                name: 'Post-Live',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosPostLiveYoutube
+            }, {
+                name: 'Informal',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadComentariosInformalesYoutube
             }]
         });
 

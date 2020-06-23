@@ -137,7 +137,7 @@ function calcularIndicadoresCalidadAlcanceYotube() {
         var indiceFecha = obtenerIndiceFecha(this.fecha, "dd-mm-yyyy", "-");
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         sumaEspectadoresMesYoutube[indiceFecha] += this.cantidad_espectadores_live;
-        sumaEspectadoresMesYoutube[indiceFecha]++;
+        presentacionesMesYoutube[indiceFecha]++;
         if (i_max - 2 === i) {
             cantidad_espectadores_semana_pasada = this.cantidad_espectadores_live;
             tiempo_aire_semana_pasada = this.total_minutos_aire;
@@ -205,10 +205,10 @@ function chartAlcanceEspectadoresYoutube() {
         var labelsMeses = [];
         var promediosMes = [];
         var i = 0;
-        $.each(sumaEspectadoresMes, function() {
+        $.each(sumaEspectadoresMesYoutube, function() {
             if (this > 0) {
                 labelsMeses.push(meses[i]);
-                promediosMes.push(Math.round(sumaEspectadoresMes[i] / presentacionesMes[i]));
+                promediosMes.push(Math.round(sumaEspectadoresMesYoutube[i] / presentacionesMesYoutube[i]));
             }
             i++;
         });
