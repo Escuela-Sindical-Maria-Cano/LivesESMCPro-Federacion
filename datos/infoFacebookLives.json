@@ -31,6 +31,31 @@
         "denuncias": ["Continúan los abusos en empresas como Transportadora de Valores del Sur, Transbank y Prosegur, despidiendo, acosando a los trabajadores sindicalizados y no conservando ni los mínimos protocolos de seguridad para sus empleados. ", "Fernando Manzanares (Sintralloreda), denuncia despedidos, suspensión de contratos y firmas de OTRO SI"]
     },
     {
+        "fecha": "06-06-2020",
+        "cantidad_espectadores_live": 0,
+        "cantidad_espectadores_1mes": 0,
+        "pico_espectadores_concurrentes": 0,
+        "total_minutos_aire": 0,
+        "porcentaje_mujeres": 0,
+        "porcentaje_hombres": 0,
+        "porcentaje_fotograma_enviados": 0,
+        "porcentaje_fotograma_perdidos": 0,
+        "total_minutos_vistos_transmision": 0,
+        "promedio_minutos_reproducion": 0,
+        "total_minutos_vistos_1mes": 0,
+        "total_interacciones": 0,
+        "total_comentarios_publicacion": 0,
+        "total_comentarios_live": 0,
+        "total_comentarios_post_live": 0,
+        "total_comentarios_informales": 0,
+        "total_compartidos": 0,
+        "tiene_plan_transmision": true,
+        "tiene_lineamientos_manual": false,
+        "localizacion": [
+        ],
+        "denuncias": ["En Cali, son despedidos guardas de Atlas y trabajadoras del PAE"]
+    },
+    {
         "fecha": "13-06-2020",
         "cantidad_espectadores_live": 1100,
         "cantidad_espectadores_1mes": 0,

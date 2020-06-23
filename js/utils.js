@@ -254,14 +254,14 @@ var themeEchart = {
 
 function parsearLocalizacion(localizacionOrigen) {
     var json = {};
-    $.each(localizacionOrigen, function() {
+    $.each(localizacionOrigen, function () {
         json[localizaciones.get(this.lugar)] = this.valor;
     });
     return json;
 }
 
 function parsearLocalizacionAcumular(localizacionesReferencia, localizacionOrigen, cantidadEspectadores) {
-    $.each(localizacionOrigen, function() {
+    $.each(localizacionOrigen, function () {
         if (typeof localizacionesReferencia[localizaciones.get(this.lugar)] === "undefined") {
             localizacionesReferencia[localizaciones.get(this.lugar)] = this.valor;
         } else {
@@ -278,13 +278,19 @@ function parsearLocalizacionAcumular(localizacionesReferencia, localizacionOrige
 
 
 function calculoVariacionPositiva(actual, pasada, id) {
-    var variacion = Math.round((actual - pasada) / pasada * 100);
+    var variacion = 0;
+    if (pasada !== 0) {
+        variacion = Math.round((actual - pasada) / pasada * 100);
+    }
     $("#" + id).html('<i class="green"><i class="fa fa-sort-asc"></i><i class="green">' + variacion + '% </i> la semana pasada');
 
 }
 
 function calculoVariacionNegativa(actual, pasada, id) {
-    var variacion = Math.round((pasada - actual) / pasada * 100);
+    var variacion = 0;
+    if (pasada !== 0) {
+        variacion = Math.round((pasada - actual) / pasada * 100);
+    }
     $("#" + id).html('<i class="red"><i class="fa fa-sort-desc"></i><i class="red">' + variacion + '% </i> la semana pasada');
 
 }
