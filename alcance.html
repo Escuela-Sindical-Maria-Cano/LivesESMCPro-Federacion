@@ -109,7 +109,7 @@
             </div>
             <!-- /top navigation -->
 
-            <!-- page content -->
+            <!--  page content -->
             <div class="right_col" role="main">
                 <div class="">
                     <div class="page-title">
@@ -290,8 +290,81 @@
                         </div>
                     </div>
                 </div>
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h1><i class="fa fa-youtube"></i>Youtube</h1>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row" style="display: inline-block;">
+                        <div class="top_tiles">
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                                    <div class="count" id="youtube_ultimo_numero_espectadores"></div>
+                                    <h3>Número de Espectadores</h3>
+                                    <p class="youtube_fecha_ultimo_live"></p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-comments-o"></i></div>
+                                    <div class="count" id="youtube_ultimo_numero_comentarios"></div>
+                                    <h3>Número de Comentarios</h3>
+                                    <p class="youtube_fecha_ultimo_live"></p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-share"></i></div>
+                                    <div class="count" id="youtube_ultimo_numero_compartidos"></div>
+                                    <h3>Número de Compartidos</h3>
+                                    <p class="youtube_fecha_ultimo_live"></p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                                    <div class="count" id="youtube_ultimo_numero_interacciones"></div>
+                                    <h3>Número de me gusta</h3>
+                                    <p class="youtube_fecha_ultimo_live"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="dashboard_graph">
+
+                                <div class="row x_title">
+                                    <div class="col-md-6">
+                                        <h3>Alcance del live <small>Cantidad de Espectadores</small>
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9 col-sm-9">
+                                    <div class="x_content">
+                                        <canvas id="chart_youtube_alcance_todos"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3 bg-white">
+                                    <div class="x_title">
+                                        <h2>Alcance promedio por mes</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <canvas id="chart_youtube_alcance_x_mes"></canvas>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /page content -->
+            <!-- / page content -->
 
             <!-- footer content -->
             <footer>
