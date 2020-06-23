@@ -325,3 +325,6 @@ function obtenerIndiceFecha(_date, _format, _delimiter) {
     month -= 1;
     return month;
 }
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
