@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     leerJSON();
 });
 
@@ -27,18 +27,28 @@ var sumaEspectadoresMesYoutube = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var presentacionesMesYoutube = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var cantidad_espectadores_youtube_semana_actual = 0;
 
+var cantidadEspectadoresTotal = [];
+var cantidadEspectadoresFacebook = [];
+var cantidadEspectadoresYoutube = [];
+
+var cantidadPromedioMinutosTotal = [];
+var cantidadPromedioMinutosFacebook = [];
+var cantidadPromedioMinutosYoutube = [];
+
 function leerJSON() {
-    $.getJSON('datos/infoFacebookLives.json', function(data) {
+    $.getJSON('datos/infoFacebookLives.json', function (data) {
         infoFacebookLives = data;
         calcularIndicadoresCalidadAlcance();
         chartAlcanceEspectadores();
         tablaTopLocalizaciones();
         tablaTopLocalizacionesAcumulados();
     });
-    $.getJSON('datos/infoYoutubeLives.json', function(data) {
+    $.getJSON('datos/infoYoutubeLives.json', function (data) {
         infoYoutubeLives = data;
         calcularIndicadoresCalidadAlcanceYotube();
         chartAlcanceEspectadoresYoutube();
+        chartRetroCombinacionEspectadores();
+        chartRetroCombinacionMinutos();
     });
 }
 
@@ -61,7 +71,9 @@ function calcularIndicadoresCalidadAlcance() {
     var fecha_semana_actual = "";
     var i = 0;
     var i_max = Object.keys(infoFacebookLives).length;
-    $.each(infoFacebookLives, function() {
+    $.each(infoFacebookLives, function () {
+        cantidadEspectadoresTotal.push(this.pico_espectadores_concurrentes);
+        cantidadEspectadoresFacebook.push(this.pico_espectadores_concurrentes);
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         promedio_tiempo_aire += this.total_minutos_aire;
         promedio_pico_espectadores += this.pico_espectadores_concurrentes;
@@ -69,6 +81,8 @@ function calcularIndicadoresCalidadAlcance() {
         picoValues.push(this.pico_espectadores_concurrentes);
         minutosReproducidosValues.push(this.total_minutos_vistos_transmision);
         promedioReproduccionValues.push(this.promedio_minutos_reproducion);
+        cantidadPromedioMinutosTotal.push(this.promedio_minutos_reproducion);
+        cantidadPromedioMinutosFacebook.push(this.promedio_minutos_reproducion);
         numeroEspectadoresLive.push(this.cantidad_espectadores_live);
         var indiceFecha = obtenerIndiceFecha(this.fecha, "dd-mm-yyyy", "-");
         cantidad_total_espectadores += this.cantidad_espectadores_live;
@@ -125,13 +139,17 @@ function calcularIndicadoresCalidadAlcanceYotube() {
     var fecha_semana_actual = "";
     var i = 0;
     var i_max = Object.keys(infoYoutubeLives).length;
-    $.each(infoYoutubeLives, function() {
+    $.each(infoYoutubeLives, function () {
+        cantidadEspectadoresTotal[i] = cantidadEspectadoresTotal[i] + this.pico_espectadores_concurrentes;
+        cantidadEspectadoresYoutube.push(this.pico_espectadores_concurrentes);
         cantidad_total_espectadores += this.cantidad_espectadores_live;
         promedio_tiempo_aire += this.total_minutos_aire;
         promedio_pico_espectadores += this.pico_espectadores_concurrentes;
         labelsYoutubeFechas.push(this.fecha);
         picoYoutubeValues.push(this.pico_espectadores_concurrentes);
         minutosReproducidosYoutubeValues.push(this.total_minutos_vistos_transmision);
+        cantidadPromedioMinutosTotal[i] =cantidadPromedioMinutosTotal[i] +this.promedio_minutos_reproducion;
+        cantidadPromedioMinutosYoutube.push(this.promedio_minutos_reproducion);
         promedioReproduccionYoutubeValues.push(this.promedio_minutos_reproducion);
         numeroEspectadoresYoutubeLive.push(this.cantidad_espectadores_live);
         var indiceFecha = obtenerIndiceFecha(this.fecha, "dd-mm-yyyy", "-");
@@ -205,7 +223,7 @@ function chartAlcanceEspectadoresYoutube() {
         var labelsMeses = [];
         var promediosMes = [];
         var i = 0;
-        $.each(sumaEspectadoresMesYoutube, function() {
+        $.each(sumaEspectadoresMesYoutube, function () {
             if (this > 0) {
                 labelsMeses.push(meses[i]);
                 promediosMes.push(Math.round(sumaEspectadoresMesYoutube[i] / presentacionesMesYoutube[i]));
@@ -282,7 +300,7 @@ function chartAlcanceEspectadores() {
         var labelsMeses = [];
         var promediosMes = [];
         var i = 0;
-        $.each(sumaEspectadoresMes, function() {
+        $.each(sumaEspectadoresMes, function () {
             if (this > 0) {
                 labelsMeses.push(meses[i]);
                 promediosMes.push(Math.round(sumaEspectadoresMes[i] / presentacionesMes[i]));
@@ -320,7 +338,7 @@ function chartAlcanceEspectadores() {
             },
         });
     }
-    if (typeof(jQuery.fn.vectorMap) === 'undefined') { return; }
+    if (typeof (jQuery.fn.vectorMap) === 'undefined') { return; }
 
     console.log('init_JQVmap');
 
@@ -335,7 +353,7 @@ function chartAlcanceEspectadores() {
                     normalizeFunction: 'polynomial'
                 }]
             },
-            onRegionTipShow: function(e, el, code) {
+            onRegionTipShow: function (e, el, code) {
                 var valor = 0;
                 if (typeof localizacionesActuales[code] !== "undefined") {
                     valor = localizacionesActuales[code];
@@ -356,7 +374,7 @@ function chartAlcanceEspectadores() {
                     normalizeFunction: 'polynomial'
                 }]
             },
-            onRegionTipShow: function(e, el, code) {
+            onRegionTipShow: function (e, el, code) {
                 var valor = 0;
                 if (typeof localizacionesAcumuladas[code] !== "undefined") {
                     valor = localizacionesAcumuladas[code];
@@ -381,7 +399,7 @@ function tablaTopLocalizaciones() {
     var top5 = "";
     var top5Valor = 0;
     var i = 0;
-    $.each(infoFacebookLives[i_ultima].localizacion, function() {
+    $.each(infoFacebookLives[i_ultima].localizacion, function () {
         if (i !== 0) {
             if (top1Valor <= this.valor) {
                 top5 = top4;
@@ -456,7 +474,7 @@ function tablaTopLocalizacionesAcumulados() {
     var top5 = "";
     var top5Valor = 0;
     var i = 0;
-    localizacionesMapaAcumuladas.forEach(function(value, key) {
+    localizacionesMapaAcumuladas.forEach(function (value, key) {
         if (i !== 0) {
             if (top1Valor <= value) {
                 top5 = top4;
@@ -516,5 +534,189 @@ function tablaTopLocalizacionesAcumulados() {
     if (top5Valor > 0) {
         $("#top5_localizacion_acumulado").html(top5);
         $("#top5_localizacion_acumulado_value").html(Math.round(top5Valor));
+    }
+}
+
+function chartRetroCombinacionEspectadores() {
+    if ($('#chart_combinacion_espectadores').length) {
+
+        var echartLine = echarts.init(document.getElementById('chart_combinacion_espectadores'), themeEchart);
+
+        echartLine.setOption({
+            title: {
+                text: 'Espectadores en la transmisión',
+                subtext: 'Cantidad'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                x: 220,
+                y: 40,
+                data: ['Total', 'Facebook', 'Youtube']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        title: {
+                            line: 'Line',
+                            bar: 'Bar',
+                            stack: 'Stack',
+                            tiled: 'Tiled'
+                        },
+                        type: ['line', 'bar', 'stack', 'tiled']
+                    },
+                    restore: {
+                        show: true,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: labelsFechas
+            }],
+            yAxis: [{
+                type: 'value'
+            }],
+            series: [{
+                name: 'Total',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadEspectadoresTotal
+            }, {
+                name: 'Facebook',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadEspectadoresFacebook
+            }, {
+                name: 'Youtube',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadEspectadoresYoutube
+            }]
+        });
+
+    }
+}
+
+function chartRetroCombinacionMinutos() {
+    if ($('#chart_combinacion_minutos').length) {
+
+        var echartLine = echarts.init(document.getElementById('chart_combinacion_minutos'), themeEchart);
+
+        echartLine.setOption({
+            title: {
+                text: 'Promedio de minutos vistos',
+                subtext: 'Cantidad'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                x: 220,
+                y: 40,
+                data: ['Total', 'Facebook', 'Youtube']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        title: {
+                            line: 'Line',
+                            bar: 'Bar',
+                            stack: 'Stack',
+                            tiled: 'Tiled'
+                        },
+                        type: ['line', 'bar', 'stack', 'tiled']
+                    },
+                    restore: {
+                        show: true,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: labelsFechas
+            }],
+            yAxis: [{
+                type: 'value'
+            }],
+            series: [{
+                name: 'Total',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadPromedioMinutosTotal
+            }, {
+                name: 'Facebook',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadPromedioMinutosFacebook
+            }, {
+                name: 'Youtube',
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+                data: cantidadPromedioMinutosYoutube
+            }]
+        });
+
     }
 }

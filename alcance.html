@@ -206,7 +206,7 @@
                                                     <thead>
                                                         <tr>
                                                             <td><strong>Localización</strong></td>
-                                                            <td class="fs15 fw700 text-right"><strong>Cantidad de Espectadores</strong></td>
+                                                            <td class="fs15 fw700 text-right"><strong>Minutos</strong></td>
                                                         </tr>
                                                     </thead>
                                                     <tr>
@@ -261,7 +261,7 @@
                                                     <thead>
                                                         <tr>
                                                             <td><strong>Localización</strong></td>
-                                                            <td class="fs15 fw700 text-right"><strong>Cantidad de Espectadores</strong></td>
+                                                            <td class="fs15 fw700 text-right"><strong>Minutos</strong></td>
                                                         </tr>
                                                     </thead>
                                                     <tr>
@@ -367,6 +367,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="dashboard_graph">
+                            <div class="x_panel">
+                                <div class="row x_title">
+                                    <div class="col-md-12">
+                                        <h3><i class="fa fa-facebook-square"></i>Combinación de cantidad de pico de espectadores <small>Facebook y Youtube</small>
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="x_content">
+                                        <div id="chart_combinacion_espectadores" style="height:350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="dashboard_graph">
+                            <div class="x_panel">
+                                <div class="row x_title">
+                                    <div class="col-md-12">
+                                        <h3><i class="fa fa-facebook-square"></i>Combinación de minutos promedio en <small>Facebook y Youtube</small>
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="x_content">
+                                        <div id="chart_combinacion_minutos" style="height:350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- / page content -->
 
@@ -412,6 +452,9 @@
     <script src="vendors/jquery-jvectormap-2.0.5/jquery-jvectormap-2.0.5.min.js"></script>
     <script src="vendors/jquery-jvectormap-2.0.5/jquery-jvectormap-co-mill.js"></script>
     <script src="vendors/jquery-jvectormap-2.0.5/jquery-jvectormap-co-merc.js"></script>
+    <!-- ECharts -->
+    <script src="vendors/echarts/dist/echarts.min.js"></script>
+    <script src="vendors/echarts/map/js/world.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="build/js/custom.min.js"></script>
